@@ -25,6 +25,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.16
       - name: Install Noll
         run: |
             git clone https://github.com/NollGo/Noll
