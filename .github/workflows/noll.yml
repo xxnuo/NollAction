@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: NollGo/Noll
-          path: './Noll'
+          path: "./Noll"
 
       - name: Into Noll
         run: cd ./Noll
@@ -41,24 +41,26 @@ jobs:
           go-version: 1.21
 
       - name: Build Noll
-        run: go build --ldflags="-w -s"
+        run: |
+          go mod tidy
+          go build --ldflags="-w -s"
 
       - name: Build site
         run: |
-            repository=${{ github.repository }}
-            repositoryName=$(basename "$repository")
-            pagesPath="./"
-            baseURL="/$repositoryName"
-            gamID="${{ vars.GAMID }}"
-            echo "${{ github.repository_owner }}, $repositoryName, ${{secrets.GITHUB_TOKEN}}, $pagesPath, $baseURL, $gamID,"
-            ./Noll/io.github.nollgo -owner ${{ github.repository_owner }} -name $repositoryName  -token ${{secrets.GITHUB_TOKEN}} -pages "$pagesPath" -baseURL "$baseURL" -gamID "$gamID"
-            rm -rf ./Noll
-            ls -a -lh
+          repository=${{ github.repository }}
+          repositoryName=$(basename "$repository")
+          pagesPath="./"
+          baseURL="/$repositoryName"
+          gamID="${{ vars.GAMID }}"
+          echo "${{ github.repository_owner }}, $repositoryName, ${{secrets.GITHUB_TOKEN}}, $pagesPath, $baseURL, $gamID,"
+          ./Noll/io.github.nollgo -owner ${{ github.repository_owner }} -name $repositoryName  -token ${{secrets.GITHUB_TOKEN}} -pages "$pagesPath" -baseURL "$baseURL" -gamID "$gamID"
+          rm -rf ./Noll
+          ls -a -lh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: './'
+          path: "./"
 
   # Deployment job
   deploy:
