@@ -32,12 +32,10 @@ jobs:
           repository: NollGo/Noll
           path: "./Noll"
 
-      - name: Setup Go environment
-        uses: actions/setup-go@v5.0.0
-        with:
-          go-version: 1.21
-
       - name: Build Noll
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: './Noll/go.mod'
         run: |
           cd ./Noll
           go mod tidy
