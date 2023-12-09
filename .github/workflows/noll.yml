@@ -42,6 +42,7 @@ jobs:
           cd ./Noll
           go mod tidy
           go build --ldflags="-w -s"
+          chmod 775 ./io.github.nollgo
 
       - name: Build site
         run: |
@@ -50,9 +51,12 @@ jobs:
           pagesPath="./"
           baseURL="/$repositoryName"
           gamID="${{ vars.GAMID }}"
-          echo "${{ github.repository_owner }}, $repositoryName, ${{secrets.GITHUB_TOKEN}}, $pagesPath, $baseURL, $gamID,"
+          echo "ARGS: ${{ github.repository_owner }}, $repositoryName, ${{secrets.GITHUB_TOKEN}}, $pagesPath, $baseURL, $gamID,"
+          if [ -z "$gamID" ]; then
+            ./Noll/io.github.nollgo -owner ${{ github.repository_owner }} -name $repositoryName  -token ${{secrets.GITHUB_TOKEN}} -pages "$pagesPath" -baseURL "$baseURL"
+          else
           ./Noll/io.github.nollgo -owner ${{ github.repository_owner }} -name $repositoryName  -token ${{secrets.GITHUB_TOKEN}} -pages "$pagesPath" -baseURL "$baseURL" -gamID "$gamID"
-          rm -rf ./Noll
+          fi
           ls -a -lh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
