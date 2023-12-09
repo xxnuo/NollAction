@@ -23,29 +23,15 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v4
+      - name: Checkout Noll
+        uses: actions/checkout@v4
         with:
-          go-version: 1.16
-      - name: Install Noll
-        run: |
-            git clone https://github.com/NollGo/Noll
-            cd Noll
-            go get -v -u -d ./...
-            if [ -f Gopkg.toml ]; then
-                curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-                dep ensure
-            fi
-            ls -a -lh
-            echo "GO GET SUCCESSED"
-            cat go.mod
-            cat go.sum
-            go build --ldflags="-w -s"
-            ls -a -lh
-            chmod 775 ./io.github.nollgo
-            echo "NEXT"
+          repository: NollGo/Noll
+          path: 'Noll'
+      - name: Setup Go environment
+        uses: actions/setup-go@v5.0.0
+      - name: Build Noll
+        run: go build --ldflags="-w -s"
       - name: Build site
         run: |
             repository=${{ github.repository }}
