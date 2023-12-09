@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: NollGo/Noll
-          ref: d19d54c
+          ref: d19d54c47256dce05943471021082faf083d36bf
           path: "./Noll"
 
       - name: Setup Go environment
