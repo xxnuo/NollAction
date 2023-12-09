@@ -30,6 +30,8 @@ jobs:
           path: 'Noll'
       - name: Setup Go environment
         uses: actions/setup-go@v5.0.0
+        with:
+          go-version: 1.21
       - name: Build Noll
         run: go build --ldflags="-w -s"
       - name: Build site
