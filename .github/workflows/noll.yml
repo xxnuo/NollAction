@@ -31,6 +31,8 @@ jobs:
         with:
           repository: NollGo/Noll
           path: './Noll'
+      - name: Show Pwd
+        run: pwd
       - name: Setup Go environment
         uses: actions/setup-go@v5.0.0
         with:
