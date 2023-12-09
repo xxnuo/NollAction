@@ -36,14 +36,24 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v5
         with:
-          go-version-file: './Noll/go.mod'
+          go-version-file: "./Noll/go.mod"
 
       - name: Build Noll
         run: |
           cd ./Noll
-          go mod tidy
+          go get -v -u -d ./...
+          if [ -f Gopkg.toml ]; then
+              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+              dep ensure
+          fi
+          ls -a -lh
+          echo "GO GET SUCCESSED"
+          cat go.mod
+          cat go.sum
           go build --ldflags="-w -s"
+          ls -a -lh
           chmod 775 ./io.github.nollgo
+          echo "NEXT"
 
       - name: Build site
         run: |
