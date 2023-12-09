@@ -1,6 +1,9 @@
 name: Deploy site to Pages
 
 on:
+  push:
+    branches:
+      - main
   discussion:
     types: [created, edited, deleted]
 
